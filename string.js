@@ -157,3 +157,47 @@ function byteLen2(str, charset) {
     return total
 }
 
+// 字符串截断处理, 超出限定长度, 默认添加 ...
+function truncate(target, length, truncation) {
+    length = length || 30
+    truncation = truncation === void 0 ? '...' : truncation
+
+    return target.length > length ? target.slice(0, length - truncation.length) + truncation : String(target)
+}
+
+// 转换驼峰风格
+function camelize(target) {
+    if (target.indexOf('-') < 0 && target.indexOf('_') < 0) {
+        return target
+    }
+
+    return target.replace(/[-_][^-_]/g, function(match) {
+        return match.charAt(1).toUpperCase()
+    })
+}
+
+// classClass-class => class_class_class
+function underscored(target) {
+    return target.replace(/([a-z\d])([A-Z])/g, '$1_$2').replace(/\-/g, '_').toLowerCase()
+}
+
+// classClass_class => class-class-class
+function dasherize(target) {
+    return target.replace(/([a-z\d])([A-Z])/g, '$1-$2').replace(/\_/g, '-').toLowerCase()
+}
+
+// 首字母大写
+function capitalize(target) {
+    return target.charAt(0).toUpperCase() + target.substring(1).toLowerCase()
+}
+
+// 移除字符串中的 html 标签
+var rtag = /<\w+(\s+("[^"]*"|'[^']*'|[^>])+)?>|<\/\w+>)/gi
+function stripTags(target) {
+    return String(target || '').replace(rtag, '')
+}
+
+// 移除 script 标签
+function stripScripts(target) {
+    return String(target || '').replace(/<script[^>]*>([\S\s]*?)<\/script>/img, '')
+}
