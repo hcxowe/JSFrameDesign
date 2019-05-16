@@ -14,7 +14,7 @@ function startsWith(target, str, ignorecase) {
 }
 
 // endsWith 判断目标字符串是否位于原字符串的结尾
-function startsWith(target, str, ignorecase) {
+function endsWith(target, str, ignorecase) {
     if (ignorecase) {
         target = target.toLowerCase()
         str = str.toLowerCase()
@@ -65,7 +65,7 @@ function repeat(target, n) {
     return s.substring(0, c) */
 
     // 方法六
-    /* var s = target, total = ''
+    var s = target, total = ''
     while (n > 0) {
         if (n % 2 == 1) {
             total += s
@@ -79,10 +79,10 @@ function repeat(target, n) {
         n = n >> 1
     }
 
-    return total */
+    return total
 
     // 方法七
-    if (n == 1) {
+    /* if (n == 1) {
         return target
     }
 
@@ -92,9 +92,68 @@ function repeat(target, n) {
         s += target
     }
 
-    return s
+    return s */
 
     // 方法八
     /* return (n <= 0) ? '' : target.concat(repeat(target, --n)) */
+}
+
+// byteLen 取得一个字符串所有字节的长度
+function byteLen(target) {
+    var byteLength = target.length, i = 0
+
+    for (; i < target.length; i++) {
+        if (target.charCodeAt(i) > 255) {
+            byteLength++
+        }
+    }
+
+    return byteLength
+}
+
+function byteLen1(target, fix) {
+    fix = fix || 2
+
+    var str = new Array(fix + 1).join('-')
+    return target.replace(/[^\x00-\xff]/g, str).length // 将汉字替换为指定数量的 -
+}
+
+function byteLen2(str, charset) {
+    var total = 0,
+        charCode,
+        i,
+        len
+
+    charset = charset ? charset.toLowerCase() :　''
+    if (charset === 'utf-16' || charset === 'utf16') {
+        for (i = 0, len = str.length; i < len; i++) {
+            charCode = str.charCodeAt(i)
+            if (charCode <= 0xffff) {
+                total += 2
+            }
+            else {
+                total += 4
+            }
+        }
+    }
+    else {
+        for (i = 0, len = str.length; i < len; i++) {
+            charCode = str.charCodeAt(i)
+            if (charCode <= 0x007f) {
+                total += 1
+            }
+            else if (charCode <= 0x07ff) {
+                total += 2
+            }
+            else if (charCode <= 0xffff) {
+                total += 3
+            }
+            else {
+                total += 4
+            }
+        }
+    }
+
+    return total
 }
 
