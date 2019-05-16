@@ -201,3 +201,51 @@ function stripTags(target) {
 function stripScripts(target) {
     return String(target || '').replace(/<script[^>]*>([\S\s]*?)<\/script>/img, '')
 }
+
+// html 转义
+function escapeHTML(target) {
+    return target.replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;')
+}
+
+// html还原
+function unescapeHTML(target) {
+    return target.replace(/&#39;/g, '\'')
+                .replace(/&quot;/g, '"')
+                .replace(/&lt;/g, '<')
+                .replace(/&gt;/g, '>')
+                .replace(/&amp;/g, '&')
+}
+
+// 利用 原生API innerText innerHTML 处理
+function escapeHTML1(target) {
+    var div = document.createElement('div')
+    div.innerText = target
+    return div.innerHTML
+}
+
+function unescapeHTML1(target) {
+    var div = document.createElement('div')
+    div.innerHTML = target
+
+    return getText(div)
+}
+
+function getText(node) {
+    if (node.nodeType !== 1) {
+        return node.nodeValue
+    }
+    else if (node.nodeName !== 'SCRIPT') {
+        var ret = ''
+        for (var i=0, el; el=node.childNodes[i++];) {            
+            ret += getText(el)
+        }
+    }
+    else {
+        return ''
+    }
+}
+
