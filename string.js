@@ -192,7 +192,7 @@ function capitalize(target) {
 }
 
 // 移除字符串中的 html 标签
-var rtag = /<\w+(\s+("[^"]*"|'[^']*'|[^>])+)?>|<\/\w+>)/gi
+var rtag = /<\w+(\s+("[^"]*"|'[^']*'|[^>])+)?>|<\/\w+>/gi
 function stripTags(target) {
     return String(target || '').replace(rtag, '')
 }
