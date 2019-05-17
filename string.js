@@ -249,3 +249,74 @@ function getText(node) {
     }
 }
 
+// pad 为字符串的某一端添加字符串
+
+// 前面补 0
+function pad(target, n) {
+    // 方法一
+    /* var zero = new Array(n).join('0')
+    var str = zero + target
+    return str.substr(-n) */
+
+    // 方法二
+    /* return Array((n+1) - target.toString().split('').length).join('0') + target */
+
+    // 方法三
+    /* return (Math.pow(10, n) + '' + target).slice(-n) */
+
+    // 方法四
+    /* return ((1 >> n).toString(2) + target).slice(-n) */
+
+    // 方法五
+    /* return (0..toFixed(n) + target).slice(-n) */
+
+    // 方法六
+    /* return (1e20 + '' + target).slice(-n) */
+
+    // 方法七
+    var len = target.toString().length
+    while (len < n) {
+        target = '0' + target
+        len++
+    }
+
+    return target
+}
+
+function padNormal(target, n, filling, right, radix) {
+    var num = target.toString(radix || 10)
+    filling = filling || '0'
+    while (num.length < n) {
+        if (!right) {
+            num = filling + num
+        }
+        else {
+            num = num + filling
+        }
+    }
+
+    return num
+}
+
+// format sprintf
+function format(str, obj) {
+    var array = Array.prototype.slice.call(arguments, 1)
+
+    // name 在正则没有组时 为匹配成功的索引, 有组存在则为 组的内容;  这里为 ([^{}]+) 匹配的内容
+    return str.splice(/\\?\#{([^{}]+)\}/gm, function(match, name) {
+        if (match.charAt(0) == '\\') {
+            return match.slice(1)
+        }
+
+        var index = Number(name)
+        if (index >= 0) {
+            return array[index]
+        }
+
+        if (object && object[name] !== void 0) {
+            return object[name]
+        }
+
+        return ''
+    })
+}
