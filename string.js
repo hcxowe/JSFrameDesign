@@ -320,3 +320,73 @@ function format(str, obj) {
         return ''
     })
 }
+
+// trim 与 空白
+function trim(str) {
+    // 方法一
+    // return str.replace(/^\s\s*/, '').replace(/\s\s*$/, '')
+
+    // 方法二
+    // return str.replace(/^\s+/, '').replace(/\s+$/, '')
+
+    // 方法三
+    // search 返回满足条件的 索引
+    // return str.substring(Math.max(str.search(/\S/, 0)), str.search(/\S\s*$)/) + 1)
+
+    // 方法四
+    // return str.replace(/^\s+|\s+$/g, '')
+
+    // 方法五
+    // match 匹配到东西会返回一个类数组对象, 原字符匹配部分与分组将成为他的元素
+    //str = str.match(/\S+(?:\s+\S+)*/)
+    //return str ? str[0] : ''
+
+    // 方法六
+    /* return str.replace(/^\s*(\S*(\s+\S+)*)\s*$/, '$1') */
+
+    // 方法七
+    /* return str.replace(/^\s*(\S*(?:\s+\S+)*)\s*$/, '$1') */
+
+    // 方法八
+    //return str.replace(/^\s*((?:[\S\s]*\S)?)\s*$/, '$1')
+
+    // 方法九
+    //return str.replace(/^\s*([\S\s]*?)\s*$/, '$1')
+
+    // 方法十
+    var whitespace = ' \n\r\t\f\x0b\xa0\u2000\u2001\u2002\u2003\n\u2004\u2005\u2006\u2007\u2008\u2009\u2000a\u200b\u2028\u2029\u3000'
+    for (var i=0; i<str.length; i++) {
+        if (whitespace.indexOf(str.charAt(i)) === -1) {
+            str = str.substring(i)
+            break
+        }
+    }
+
+    for (i=str.length-1; i>=0; i--) {
+        if (whitespace.indexOf(str.charAt(i)) === -1) {
+            str = str.substring(0, i+1)
+            break
+        }
+    }
+
+    return whitespace.indexOf(str.charAt(0)) === -1 ? str : ''
+
+    // 方法十一
+    /* str = str.replace(/^\s+/, '')
+    for (var i=str.length-1; i>=0; i--) {
+        if (/\S/.test(str.charAt(i))) {
+            str = str.substring(0, i+1)
+            break
+        }
+    }
+
+    return str */
+
+    // 方法十二
+    /* var m = str.length
+    for (var i = -1; str.charCode(++i) <= 32;) {
+        for (var j = m - 1; j > i && str.charCodeAt(j) <= 32;) {
+            return str.slice(i, j + 1)
+        }
+    } */
+}
