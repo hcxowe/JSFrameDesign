@@ -24,3 +24,4 @@ isIPad = /iPad/i.test(navigator.userAgent)
 isAndroid = /android/i.test(navigator.userAgent)
 isIOS = isIPhone || isIPad
 
+ 
