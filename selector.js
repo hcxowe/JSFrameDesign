@@ -178,3 +178,21 @@ document.getElementsBySelector = function(selector) {
 
     return currentContext
 }
+
+// isXML
+function isXML(elem) {
+    // Sizzle 的实现
+   /*  var documentElement = elem && (elem.ownerDocument || elem).documentElement
+
+    return documentElement ? documentElement.nodeName !== 'HTML' : false */
+
+    // 方法二
+    /* return window.HTMLDocument ? function(doc) {
+        return !(doc instanceof HTMLDocument)
+    } : function(doc) {
+        return 'selectNodes' in doc
+    } */
+
+    // 方法三, 通过节点是否区分大小写判定. HTML不区分元素的 nodeName 的大小写
+    return document.createElement('p').nodeName !== document.createElement('P').nodeName
+}
